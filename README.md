@@ -6,6 +6,12 @@ HackMatch AI intelligently forms hackathon teams by analyzing participant skills
 
 ---
 
+## 🚀 Live Demo
+
+👉 **Try it here:** https://hackmatch-ai.onrender.com 
+
+---
+
 ## ✨ Features
 
 - 🔍 Semantic skill similarity matching  
@@ -120,7 +126,7 @@ hackmatch-ai/
 
 ```
 
-git clone [https://github.com/YOUR_USERNAME/hackmatch-ai.git](https://github.com/YOUR_USERNAME/hackmatch-ai.git)
+git clone [https://github.com/somrhik/hackmatch-ai.git](https://github.com/somrhik/hackmatch-ai.git)
 cd hackmatch-ai/backend
 
 ```
