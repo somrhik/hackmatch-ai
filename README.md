@@ -8,7 +8,11 @@ HackMatch AI intelligently forms hackathon teams by analyzing participant skills
 
 ## 🚀 Live Demo
 
-👉 **Try it here:** https://hackmatch-ai.onrender.com 
+👉 **Try it here:** 
+
+Frontend: https://hackmatch-ai-beryl.vercel.app
+
+⚠️ Note: Backend requires higher-memory environment due to transformer-based embeddings and is not deployed on free-tier hosting.
 
 ---
 
