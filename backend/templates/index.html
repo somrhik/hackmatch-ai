@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HackMatch AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="background-blur"></div>
+
+<div class="container">
+
+    <header>
+        <h1>HackMatch AI</h1>
+        <p>AI-powered hackathon team formation</p>
+    </header>
+
+    <div class="card">
+        <h2>Add Participant</h2>
+
+        <div class="input-group">
+            <input type="text" id="name" placeholder="Full Name">
+            <input type="text" id="skills" placeholder="Skills (comma separated)">
+            <input type="text" id="experience" placeholder="Experience Level">
+            <input type="text" id="role" placeholder="Preferred Role">
+        </div>
+
+        <button onclick="addUser()">Add Participant</button>
+        <p id="statusMessage" class="status"></p>
+    </div>
+
+    <div class="card">
+        <h2>Generate Teams</h2>
+        <button onclick="formTeams()">Create Teams</button>
+        <div id="teamResult" class="teams"></div>
+    </div>
+
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
