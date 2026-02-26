@@ -17,6 +17,38 @@ HackMatch AI intelligently forms hackathon teams by analyzing participant skills
 
 ---
 
+## 📸 Application Preview
+
+### 📝 Add Participants
+
+<p align="center">
+  <img src="assets/participant1.png" width="80%">
+</p>
+
+<p align="center">
+  <img src="assets/participant2.png" width="80%">
+</p>
+
+<p align="center">
+  <img src="assets/participant3.png" width="80%">
+</p>
+
+<p align="center">
+  <img src="assets/participant4.png" width="80%">
+</p>
+
+<p align="center">
+  <img src="assets/participant5.png" width="80%">
+</p>
+
+---
+
+### 🤝 Team Generation
+
+<p align="center">
+  <img src="assets/groups.png" width="80%">
+</p>
+
 ## 🧠 How It Works
 
 1. Participants enter:
