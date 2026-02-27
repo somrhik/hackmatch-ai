@@ -1,48 +1,82 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
-from typing import List
+from fastapi.staticfiles import StaticFiles
 from sentence_transformers import SentenceTransformer
-from sklearn.cluster import KMeans
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 app = FastAPI()
 
-model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-users = []
-
+# Mount static folder
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Templates
 templates = Jinja2Templates(directory="templates")
 
-class UserProfile(BaseModel):
-    name: str
-    skills: List[str]
-    experience_level: str
-    preferred_role: str
+# Lightweight model (VERY IMPORTANT for Vercel memory)
+model = SentenceTransformer("all-MiniLM-L6-v2")
+
+# Store participants temporarily (in-memory)
+participants = []
+
 
 @app.get("/", response_class=HTMLResponse)
-def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "teams": None
+    })
 
-@app.post("/add-user")
-def add_user(profile: UserProfile):
-    users.append(profile)
-    return {"message": "User added successfully"}
 
-@app.get("/form-teams")
-def form_teams():
-    if len(users) < 2:
-        return {"message": "Not enough users"}
+@app.post("/add")
+async def add_participant(
+    request: Request,
+    name: str = Form(...),
+    skills: str = Form(...)
+):
+    participants.append({
+        "name": name,
+        "skills": skills
+    })
 
-    texts = [" ".join(user.skills) for user in users]
-    embeddings = model.encode(texts)
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "teams": None,
+        "message": "User added successfully"
+    })
 
-    kmeans = KMeans(n_clusters=2, random_state=42)
-    labels = kmeans.fit_predict(embeddings)
 
-    teams = {}
-    for idx, label in enumerate(labels):
-        teams.setdefault(f"Team {label+1}", []).append(users[idx].name)
+@app.post("/generate", response_class=HTMLResponse)
+async def generate_teams(request: Request):
+    if len(participants) < 2:
+        return templates.TemplateResponse("index.html", {
+            "request": request,
+            "teams": None,
+            "error": "Not enough participants"
+        })
 
-    return teams
+    skill_texts = [p["skills"] for p in participants]
+
+    embeddings = model.encode(skill_texts)
+
+    similarity_matrix = cosine_similarity(embeddings)
+
+    team1 = []
+    team2 = []
+
+    for i, p in enumerate(participants):
+        if i % 2 == 0:
+            team1.append(p["name"])
+        else:
+            team2.append(p["name"])
+
+    teams = {
+        "Team 1": team1,
+        "Team 2": team2
+    }
+
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "teams": teams
+    })
